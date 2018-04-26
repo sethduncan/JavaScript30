@@ -6,7 +6,7 @@
 </head>
 <body>
   <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
-
+<!-- you can create any data values you want with the data- : here we use sizing to get the suffix for the function below -->
   <div class="controls">
     <label for="spacing">Spacing:</label>
     <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
@@ -21,7 +21,21 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
 
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base);
+    }
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -45,6 +59,20 @@
   </style>
 
   <script>
+    //grab the elements we want to listen for change
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      //grab the suffix for the data we want
+      const suffix = this.dataset.sizing || '';
+      //set the value of the CSS variable with the value of the input - set value of x to x
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    //loop over all the inputs and listen for change - runs the above function and applies the change
+    inputs.forEach( input => input.addEventListener('change', handleUpdate));
+    inputs.forEach( input => input.addEventListener('mousemove', handleUpdate));
+
   </script>
 
 </body>
