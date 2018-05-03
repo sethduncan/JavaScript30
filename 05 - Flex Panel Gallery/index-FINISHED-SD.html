@@ -67,7 +67,9 @@
     }
 
     .panel > *:first-child {transform: translateY(-100%);}
+    .panel.open-active > *:first-child {transform: translateY(0)}
     .panel > *:last-child {transform: translateY(100%);}
+    .panel.open-active > *:last-child {transform: translateY(0);}
 
     .panel p {
       text-transform: uppercase;
@@ -116,6 +118,24 @@
   </div>
 
   <script>
+    //Select All Panels
+    const panels = document.querySelectorAll('.panel');
+    //this will toggle the class 'open' when called
+    function toggleOpen() {
+      this.classList.toggle('open');
+    }
+    //this will toggle the class on the text only after the event that includes 'flex'
+    //we use 'flex' because safari calls the transition flex where the rest of the browsers use flex-grow
+    function toggleActive(e) {
+      if (e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+
+    //this adds a listener to each panel so when clicked, it will toggle the 'open' class
+    //NOTE the toggleOpen function does not have '()' at the end. This is so it only runs on the event, not on page load
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
 
   </script>
 
