@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+  //grab the canvas
+  const canvas = document.querySelector('#draw');
+  //get the context for the canvas - where all the drawing happens
+  const ctx = canvas.getContext('2d');
+  //set the w and h
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  //controls the color and strokes of the context
+  //http://mothereffinghsl.com/
+  ctx.strokeStyle = '#BADA55'
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 50;
+
+  //set up variables for drawing
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+  let direction = true;
+
+  function draw(e) {
+    if(!isDrawing) return; //this stops the function from running when they are not moused down
+    console.log(e);
+    ctx.strokeStyle = (`hsl(${hue}, 100%, 50%)`); //starts the hue at 0
+    ctx.beginPath();
+    //start from
+    ctx.moveTo(lastX, lastY);
+    //go to
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    //ES6 - destructuring - allows us to set both variables in one line
+    //updates x and y as it changes
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+    hue++; //increments the hue as you draw
+    //resets hue back to 0 once it hits 360, otherwise the # continues to climb
+    if(hue >= 360) {
+      hue = 0;
+    }
+
+    if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+      direction = !direction;
+    }
+    if(direction) {
+      ctx.lineWidth++;
+    } else {
+      ctx.lineWidth--;
+    }
+  }
+
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    //this sets the initial x and y to where the mouse is clicked instead of 0 or last place clicked
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  });
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+
+</script>
+
+<style>
+  html, body {
+    margin:0;
+  }
+</style>
+
+</body>
+</html>
