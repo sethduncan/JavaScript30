@@ -12,8 +12,11 @@ const secretCode = 'wesbos';
 
 window.addEventListener('keyup', (e) => {
   console.log(e.key);
+  // each key that is pressed is added into the array we made
   pressed.push(e.key);
+  // prevents the array from getting too large and becoming a key logger
   pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+  // turn array into string and check for code
   if (pressed.join('').includes(secretCode)) {
     console.log('DING DING!');
     cornify_add();
