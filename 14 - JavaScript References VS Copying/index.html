@@ -36,7 +36,9 @@
 
     // oh no - we have edited the original array too!
 
-    // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+    // Why? It's because that is an array reference, not an array copy.
+    // They both point to the same array! When you update an array,
+    // it always goes back to the original reference.
 
     // So, how do we fix this? We take a copy instead!
     const team2 = players.slice();
