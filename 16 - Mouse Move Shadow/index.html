@@ -44,6 +44,8 @@
     const { offsetWidth: width, offsetHeight: height } = hero;
     let { offsetX: x, offsetY: y } = e;
 
+// this prevents the h1 from being included in the equation.
+// It takes the values from the h1 and adds the distance from the top and left to the value.
     if (this !== e.target) {
       x = x + e.target.offsetLeft;
       y = y + e.target.offsetTop;
